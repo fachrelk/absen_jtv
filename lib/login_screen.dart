@@ -1,8 +1,6 @@
+import 'package:absen_jtv/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'auth_service.dart';
-import 'attendance_service.dart';
-
+import 'main.dart'; // Import MyHomePage untuk navigasi setelah login
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,11 +14,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isCheckedIn = false; // Untuk melacak status check-in
 
+  void _loginAndCheckIn() async {
+    // Simulasi proses login
+    if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
+      // Simulasi check-in
+      setState(() {
+        _isCheckedIn = true;
+      });
+
+      // Pindah ke halaman utama setelah login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(title: 'Absen Cuy'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-    final attendanceService = Provider.of<AttendanceService>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -41,38 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                await authService.signInWithEmailAndPassword(
-                  _emailController.text,
-                  _passwordController.text,
-                );
-
-                // Setelah login, lakukan check-in otomatis
-                await attendanceService.checkIn();
-                setState(() {
-                  _isCheckedIn = true;
-                });
-              },
+              onPressed: _loginAndCheckIn,
               child: const Text('Login and Check-in'),
-            ),
-            if (_isCheckedIn)
-              ElevatedButton(
-                onPressed: () async {
-                  await attendanceService.checkOut();
-                  setState(() {
-                    _isCheckedIn = false;
-                  });
-                },
-                child: const Text('Check-out'),
-              ),
-            TextButton(
-              onPressed: () async {
-                await authService.createUserWithEmailAndPassword(
-                  _emailController.text,
-                  _passwordController.text,
-                );
-              },
-              child: const Text('Register'),
             ),
           ],
         ),

@@ -1,76 +1,82 @@
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'auth_service.dart';
-// import 'attendance/attendance_service.dart';
-// import 'attendance/attendance_model.dart';
+import 'package:flutter/material.dart';
 
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.title});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final authService = Provider.of<AuthService>(context);
-//     final attendanceService = Provider.of<AttendanceService>(context);
+  final String title;
 
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Attendance App'),
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.logout),
-//             onPressed: () {
-//               authService.signOut();
-//             },
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: StreamBuilder<List<Attendance>>(
-//               stream: attendanceService.attendances,
-//               builder: (context, snapshot) {
-//                 if (snapshot.connectionState == ConnectionState.waiting) {
-//                   return const Center(child: CircularProgressIndicator());
-//                 }
-//                 final attendances = snapshot.data ?? [];
-//                 return ListView.builder(
-//                   itemCount: attendances.length,
-//                   itemBuilder: (context, index) {
-//                     final attendance = attendances[index];
-//                     return ListTile(
-//                       title: Text('Time In: ${attendance.timeIn.toDate()}'),
-//                       subtitle: attendance.timeOut != null
-//                           ? Text('Time Out: ${attendance.timeOut!.toDate()}')
-//                           : ElevatedButton(
-//                               onPressed: () {
-//                                 attendanceService.updateTimeOut(attendance.id);
-//                               },
-//                               child: const Text('Update Time Out'),
-//                             ),
-//                       trailing: IconButton(
-//                         icon: const Icon(Icons.delete),
-//                         onPressed: () {
-//                           attendanceService.deleteAttendance(attendance.id);
-//                         },
-//                       ),
-//                     );
-//                   },
-//                 );
-//               },
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: ElevatedButton(
-//               onPressed: () {
-//                 attendanceService.addAttendance();
-//               },
-//               child: const Text('Record Attendance'),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void _onMasukPressed() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Anda menekan tombol Masuk')),
+    );
+  }
+
+  void _onKeluarPressed() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Anda menekan tombol Keluar')),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Pilih Aksi:',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: _onMasukPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Masuk',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: _onKeluarPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: const Text(
+                    'Keluar',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
