@@ -77,9 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           children: [
             const Text('Absen Cuy'),
-            const Spacer(),
+            const Spacer(), // Spacer memisahkan teks dan logo
             Image.asset(
-              'assets/logo_jtv.png',
+              'assets/logo_jtv.png', // Pastikan path ini benar
               width: 40,
               height: 40,
             ),
@@ -89,197 +89,155 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 8,
         shadowColor: Colors.teal.shade900,
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.teal.shade300, Colors.teal.shade700],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.teal.shade200, Colors.teal.shade400],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            // Membuat tampilan Halo dan Fachrel dengan gambar tangan di tengah
+            Center(
+              child: Column(
+                children: [
+                  const Text(
+                    'Halo',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Text(
+                    'Fachrel',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Image.asset(
+                    'assets/tangan.png',
+                    width: 150,
+                    height: 150,
+                  ),
+                ],
               ),
             ),
-          ),
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                // Row untuk menampilkan "Halo", gambar tangan, dan "Fachrel"
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.teal.shade50,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+            const SizedBox(height: 30),
+            // Container untuk jam dan tombol
+            Container(
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // perubahan posisi bayangan
                   ),
-                  child: Row(
+                ],
+              ),
+              child: Column(
+                children: <Widget>[
+                  // Menampilkan waktu saat ini di tengah
+                  Text(
+                    _currentTime,
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
-                        'Halo',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
+                      ElevatedButton(
+                        onPressed: _onMasukPressed,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 5,
+                        ),
+                        child: const Text(
+                          'Masuk',
+                          style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Image.asset(
-                        'assets/tangan.png',
-                        width: 50,
-                        height: 50,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Fachrel',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
+                      const SizedBox(width: 20),
+                      ElevatedButton(
+                        onPressed: _onKeluarPressed,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 5,
+                        ),
+                        child: const Text(
+                          'Keluar',
+                          style: TextStyle(fontSize: 18),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Semangat magang nya!',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white,
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _noteController,
+                    decoration: const InputDecoration(
+                      labelText: 'Ngapain aja kamu hari ini',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    ),
+                    maxLines: 2,
+                    onChanged: (text) {
+                      setState(() {
+                        _note = text;
+                      });
+                    },
                   ),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Text(
+                    _lastActionTime.isEmpty ? '' : _lastActionTime,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.black87,
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          _currentTime,
-                          style: const TextStyle(
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ElevatedButton(
-                            onPressed: _onMasukPressed,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              elevation: 8,
-                            ),
-                            child: const Text(
-                              'Masuk',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          ElevatedButton(
-                            onPressed: _onKeluarPressed,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              elevation: 8,
-                            ),
-                            child: const Text(
-                              'Keluar',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: _noteController,
-                        decoration: const InputDecoration(
-                          labelText: 'Ngapain aja kamu hari ini',
-                          labelStyle: TextStyle(color: Colors.teal),
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.teal),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        ),
-                        maxLines: 2,
-                        onChanged: (text) {
-                          setState(() {
-                            _note = text;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        _lastActionTime.isEmpty ? '' : _lastActionTime,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.teal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Riwayat Aksi:',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ..._history.map((entry) => ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                  tileColor: Colors.white.withOpacity(0.8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  title: Text(
-                    entry,
-                    style: const TextStyle(color: Colors.teal,
-                  ),
-                )),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            // Riwayat aksi, jika ada
+            if (_history.isNotEmpty) ...[
+              const Text(
+                'Riwayat Aksi:',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ..._history.map((entry) => ListTile(
+                contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+                title: Text(entry),
+              )),
+            ],
+          ],
+        ),
       ),
     );
   }
