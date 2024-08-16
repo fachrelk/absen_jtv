@@ -276,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: const TextStyle(color: Colors.teal,
                   ),
                 )),
-              ]),
+              ],
             ),
           ),
         ],
