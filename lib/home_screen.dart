@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ElevatedButton(
                           onPressed: _onMasukPressed,
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green, // Warna latar belakang tombol
+                            backgroundColor: Colors.green, // Warna latar belakang tombol
                             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ElevatedButton(
                           onPressed: _onKeluarPressed,
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red, // Warna latar belakang tombol
+                            backgroundColor: Colors.red, // Warna latar belakang tombol
                             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
